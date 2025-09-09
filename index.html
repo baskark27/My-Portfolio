@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baskar K - Mechanical Engineering Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /*
+        ==============================================
+        TABLE OF CONTENTS
+        ==============================================
+        1.  CSS VARIABLES & GLOBAL STYLES
+        2.  HEADER & NAVIGATION
+        3.  MOBILE NAVIGATION
+        4.  MAIN CONTENT & SECTION HANDLING
+        5.  HOME (HERO) SECTION
+        6.  TIMELINE (EDUCATION & EXPERIENCE)
+        7.  PROJECTS & ACHIEVEMENTS CARDS
+        8.  SKILLS SECTION (SVG LOGOS)
+        9.  CONTACT FORM
+        10. FOOTER
+        11. ANIMATIONS & KEYFRAMES
+        12. RESPONSIVE DESIGN
+        ==============================================
+        */
+
+        /*
+        ==============================================
+        1. CSS VARIABLES & GLOBAL STYLES
+        ==============================================
+        */
+        :root {
+            /* Color Palette */
+            --bg-color-dark: #0f172a;
+            --bg-color-light: #1e293b;
+            --bg-color-card: #334155;
+            --primary-color: #38bdf8;
+            --secondary-color: #34d399;
+            --text-color-light: #f8fafc;
+            --text-color-dark: #cbd5e1;
+            --border-color: #475569;
+            --shadow-color-primary: rgba(56, 189, 248, 0.2);
+            --shadow-color-dark: rgba(0, 0, 0, 0.5);
+
+            /* Typography */
+            --font-family-main: 'Poppins', sans-serif;
+
+            /* Sizing & Spacing */
+            --header-height: 70px;
+            --border-radius: 12px;
+            
+            /* Transitions & Animations */
+            --transition-speed-fast: 0.2s ease;
+            --transition-speed-normal: 0.4s ease;
+        }
+
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-light);
+            font-family: var(--font-family-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Main container for centered content */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        /*
+        ==============================================
+        2. HEADER & NAVIGATION
+        ==============================================
+        */
+        .header {
+            /* Positioning and size */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000; /* Ensures header is above all content */
+            
+            /* Styling */
+            background-color: rgba(15, 23, 42, 0.85); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: var(--border-color);
+            
+            /* Layout */
+            display: flex;
+            align-items: center;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color-light);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav {
+            display: block; /* Shown on desktop */
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem; /* Space between nav items */
+        }
+
+        .nav-link {
+            /* Text Styling */
+            text-decoration: none;
+            color: var(--text-color-dark);
+            font-weight: 500;
+            
+            /* Positioning & Sizing */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            position: relative;
+            
+            /* Interaction */
+            cursor: pointer;
+            transition: color var(--transition-speed-fast);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+        
+        /* Underline effect for active/hovered link */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0); /* Hidden by default */
+            transform-origin: center;
+            transition: transform var(--transition-speed-normal);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1); /* Revealed on hover/active */
+        }
+
+        /*
+        ==============================================
+        3. MOBILE NAVIGATION
+        ==============================================
+        */
+        .nav-toggle {
+            display: none; /* Hidden on desktop */
+            font-size: 1.8rem;
+            color: var(--text-color-light);
+            cursor: pointer;
+            z-index: 1001; /* Above the header */
+        }
+
+        /* Styles for the mobile navigation overlay */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%; /* Start off-screen */
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg-color-dark);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        .mobile-nav.active {
+            left: 0; /* Slide in */
+        }
+
+        .mobile-nav .nav-list {
+            flex-direction: column;
+            text-align: center;
+            gap: 3rem;
+        }
+
+        .mobile-nav .nav-link {
+            font-size: 2rem;
+        }
+
+        /*
+        ==============================================
+        4. MAIN CONTENT & SECTION HANDLING
+        ==============================================
+        */
+        .main-content {
+            padding-top: var(--header-height); /* Prevent content from hiding under the fixed header */
+            flex-grow: 1; /* Ensures footer is pushed to the bottom */
+            display: flex;
+        }
+
+        /* Default state for all sections */
+        .content-section {
+            width: 100%;
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            display: none; /* All sections are hidden by default */
+        }
+
+        /* Active state to show a section */
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        /* Underline for section headings */
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /*
+        ==============================================
+        5. HOME (HERO) SECTION
+        ==============================================
+        */
+        #home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 4rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-text .dynamic-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-height: 2.5rem; /* Prevents layout shift during typing */
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            max-width: 600px;
+            color: var(--text-color-dark);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-image-container {
+            position: relative;
+        }
+
+        .hero-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border-width: 8px;
+            border-style: solid;
+            border-color: var(--bg-color-card);
+            box-shadow: 0 10px 40px var(--shadow-color-primary);
+        }
+
+        /*
+        ==============================================
+        6. TIMELINE (EDUCATION & EXPERIENCE)
+        ==============================================
+        */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 3rem;
+        }
+
+        /* The vertical line of the timeline */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -19px; /* (20px width + 4px border*2)/2 - 3px line width = 19.5px */
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border-width: 4px;
+            border-style: solid;
+            border-color: var(--bg-color-dark);
+        }
+        
+        .timeline-content {
+            background-color: var(--bg-color-light);
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            border-radius: var(--border-radius);
+            border-left-width: 4px;
+            border-left-style: solid;
+            border-left-color: var(--primary-color);
+        }
+
+        .timeline-content h3 { font-size: 1.5rem; }
+        .timeline-content h4 { color: var(--secondary-color); font-style: italic; }
+        .timeline-content p { color: var(--text-color-dark); }
+        
+        /*
+        ==============================================
+        7. PROJECTS & ACHIEVEMENTS CARDS
+        ==============================================
+        */
+        .grid-layout-three-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-layout-four-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background-color: var(--bg-color-light);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px var(--shadow-color-dark);
+        }
+
+        .card h3 { color: var(--primary-color); margin-bottom: 1rem; }
+
+        .achievement-card {
+            text-align: center;
+        }
+        
+        .achievement-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .achievement-card h3 { color: var(--text-color-light); margin-bottom: 0.5rem; }
+        
+        /*
+        ==============================================
+        8. SKILLS SECTION (SVG LOGOS)
+        ==============================================
+        */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .skill-card {
+            background-color: var(--bg-color-light);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px var(--shadow-color-dark);
+        }
+
+        .skill-card svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--text-color-dark);
+            transition: fill var(--transition-speed), transform 0.3s;
+        }
+        
+        .skill-card:hover svg {
+            fill: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .skill-card p {
+            font-weight: 500;
+            color: var(--text-color-dark);
+            transition: color var(--transition-speed);
+        }
+
+        .skill-card:hover p {
+            color: var(--text-color-light);
+        }
+
+        /*
+        ==============================================
+        9. CONTACT FORM
+        ==============================================
+        */
+        .contact-form {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            background-color: var(--bg-color-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-color-light);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--shadow-color-primary);
+        }
+        .form-submit-btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--bg-color-dark);
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+        #form-message { 
+            text-align: center;
+            margin-top: 1rem; 
+            display: none;
+            color: var(--secondary-color);
+        }
+        #download-resume-btn {
+            display: none;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /*
+        ==============================================
+        10. FOOTER
+        ==============================================
+        */
+        .footer {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            text-align: center;
+            color: var(--text-color-dark);
+            background-color: var(--bg-color-light);
+            margin-top: auto; /* Pushes footer to bottom */
+        }
+        
+        /*
+        ==============================================
+        11. ANIMATIONS & KEYFRAMES
+        ==============================================
+        */
+
+        /* Fade-in animation for section transitions */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered animation for card items */
+        .stagger-animation {
+            animation: fadeIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+        }
+        
+        /*
+        ==============================================
+        12. RESPONSIVE DESIGN
+        ==============================================
+        */
+        @media (max-width: 992px) {
+            .nav {
+                display: none; /* Hide desktop nav */
+            }
+            .nav-toggle {
+                display: block; /* Show hamburger icon */
+            }
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container { 
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .section-heading { font-size: 2rem; }
+            .hero-image { width: 250px; height: 250px; }
+            .hero-text h1 { font-size: 2.8rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header" role="banner">
+        <div class="container header-container">
+            <a class="header-logo" data-section="home" role="button" aria-label="Go to Home section">BASKAR K.</a>
+            
+            <nav class="nav" role="navigation" aria-label="Main navigation">
+                <ul class="nav-list">
+                    <li><a class="nav-link active" data-section="home" role="button">Home</a></li>
+                    <li><a class="nav-link" data-section="education" role="button">Education</a></li>
+                    <li><a class="nav-link" data-section="experience" role="button">Experience</a></li>
+                    <li><a class="nav-link" data-section="projects" role="button">Projects</a></li>
+                    <li><a class="nav-link" data-section="skills" role="button">Skills</a></li>
+                    <li><a class="nav-link" data-section="achievements" role="button">Achievements</a></li>
+                    <li><a class="nav-link" data-section="contact" role="button">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-toggle" id="nav-toggle" role="button" aria-label="Open navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true">
+        <nav role="navigation" aria-label="Mobile navigation">
+            <ul class="nav-list">
+                <li><a class="nav-link" data-section="home" role="button">Home</a></li>
+                <li><a class="nav-link" data-section="education" role="button">Education</a></li>
+                <li><a class="nav-link" data-section="experience" role="button">Experience</a></li>
+                <li><a class="nav-link" data-section="projects" role="button">Projects</a></li>
+                <li><a class="nav-link" data-section="skills" role="button">Skills</a></li>
+                <li><a class="nav-link" data-section="achievements" role="button">Achievements</a></li>
+                <li><a class="nav-link" data-section="contact" role="button">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="main-content" role="main">
+        <div class="container">
+            
+            <section id="home" class="content-section active">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Baskar K</h1>
+                        <h3 class="dynamic-title"><span id="typing-text"></span></h3>
+                        <p>Driven Mechanical Engineering student specializing in CAD design, 3D modeling, and IoT solutions. I am committed to developing innovative and sustainable technologies that solve real-world problems.</p>
+                    </div>
+                    <div class="hero-image-container">
+                        <img src="https://i.imgur.com/uR2R86h.jpeg" alt="A professional headshot of Baskar K" class="hero-image">
+                    </div>
+                </div>
+            </section>
+
+            <section id="education" class="content-section">
+                <h2 class="section-heading">Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>B.E Mechanical Engineering</h3>
+                            <h4>AVS College of Technology, Salem</h4>
+                            <p>Current CGPA: 8.15 (up to 5th semester)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>12th Standard (HSC)</h3>
+                            <h4>Government Higher Secondary School, Akkur</h4>
+                            <p>Percentage: 64.66%</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>10th Standard (SSLC)</h3>
+                            <h4>Government Higher Secondary School, Akkur</h4>
+                            <p>Percentage: 80.6%</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="experience" class="content-section">
+                 <h2 class="section-heading">Internships & Experience</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>3D Modeling Intern</h3>
+                            <h4>Bright Brain, Salem (July 2025)</h4>
+                            <p>Specialized in 3D modeling, surface design, and drafting using CATIA, contributing to product development and assembly design workflows.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>EV Intern</h3>
+                            <h4>Top Engineers, Chennai (October 2024)</h4>
+                            <p>Focused on battery management, drivetrain mechanics, and regenerative braking systems in hybrid vehicles.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Manufacturing Intern</h3>
+                            <h4>Voltech Manufacturing Company (August 2024)</h4>
+                            <p>Gained hands-on experience in the manufacturing of transformers and power distribution panels, from fabrication to quality control.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="content-section">
+                <h2 class="section-heading">Projects</h2>
+                <div class="grid-layout-three-col">
+                    <div class="card project-card">
+                        <h3>Worker Safety IoT System</h3>
+                        <p>Engineered a real-time safety monitoring system using Digital Twin technology and IoT sensors for proactive health tracking in Industry 5.0 environments.</p>
+                    </div>
+                    <div class="card project-card">
+                        <h3>2D CNC Plotter</h3>
+                        <p>Developed a cost-effective 2D CNC plotter with Arduino and stepper motors, demonstrating practical skills in mechatronics and control systems.</p>
+                    </div>
+                    <div class="card project-card">
+                        <h3>GenAI Product Recommender</h3>
+                        <p>Built an intelligent recommendation system using Generative AI to analyze user preferences and suggest relevant products.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="skills" class="content-section">
+                <h2 class="section-heading">Technical Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <svg viewBox="0 0 128 128" role="img" aria-label="CATIA Logo"><path d="M99.68 18.2H76.23v10.94h18.6v49.8H70.3v12.35h34.23V18.2zM70.3 68.94H51.7v12.35h23.45V68.94zM46.85 18.2H23.4v73.09h23.45V18.2z"></path></svg>
+                        <p>CATIA v5</p>
+                    </div>
+                    <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="AutoCAD Logo"><path d="M12.75 2.25a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0v-1.5zM12 6a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0112 6zM12 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0112 15zm-3.32-8.42a.75.75 0 00-1.06 0l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06a.75.75 0 000-1.06zM6.58 9.32a.75.75 0 010 1.06l-1.06 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm6.5-2.06a.75.75 0 00-1.06-1.06l-1.06 1.06a.75.75 0 001.06 1.06l1.06-1.06zM12 12.016c.41 0 .75-.34.75-.75V9.75a.75.75 0 00-1.5 0v1.516c0 .41.34.75.75.75zm-1.06 1.06a.75.75 0 011.06 0l1.06 1.06a.75.75 0 11-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm-2.06-1.06a.75.75 0 000 1.06l1.06 1.06a.75.75 0 001.06-1.06l-1.06-1.06a.75.75 0 00-1.06 0zm9.5 2.06a.75.75 0 01-1.06 0l-1.06-1.06a.75.75 0 011.06-1.06l1.06 1.06c.29.29.29.77 0 1.06zM17.42 9.32a.75.75 0 000 1.06l1.06 1.06a.75.75 0 101.06-1.06l-1.06-1.06a.75.75 0 00-1.06 0zm-2.06-2.06a.75.75 0 011.06 0l1.06-1.06a.75.75 0 011.06 1.06l-1.06 1.06a.75.75 0 01-1.06 0zM12 21.75a9.75 9.75 0 100-19.5 9.75 9.75 0 000 19.5zM12 21a8.25 8.25 0 110-16.5 8.25 8.25 0 010 16.5z"></path></svg>
+                        <p>AutoCAD</p>
+                    </div>
+                     <div class="skill-card">
+                        <svg viewBox="0 0 1024 1024" role="img" aria-label="SolidWorks Logo"><path d="M1012.3 294.5L520.3 8.3c-6-3.5-12.8-3.5-18.8 0L9.8 294.5c-6 3.5-9.8 9.8-9.8 16.8v493c0 7 3.8 13.3 9.8 16.8l491.5 286.3c6 3.5 12.8 3.5 18.8 0l491.5-286.3c6-3.5 9.8-9.8 9.8-16.8v-493c0-7-3.8-13.3-9.8-16.8zM512 95.8l382.3 221-127.5 73.8-382.3-221L512 95.8z m-63.5 611.3l-254-147V398.8l254 147v161.3z m-317.5-221L512 851.8 131 586.2V365.3l-127.5-73.8v421.8l254-147z m63.5-36.5L194.5 316.8 322 243l317.5 183.3-127.5 73.8z m63.5 147V565.2l254-147v161.3l-254 147z m381-147l127.5-73.8v-221L658 586.2v221z m0-257.5L893 243l127.5 73.8-317.5 183.3-127.5-73.8z"></path></svg>
+                        <p>SolidWorks</p>
+                    </div>
+                    <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="Creo Logo"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"></path></svg>
+                        <p>Creo</p>
+                    </div>
+                    <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="Python Logo"><path d="M15.02.01s-2.5 1.5-2.5 3.5v2h-5c-1.1 0-2 .9-2 2v2.09c0 1.05.5 2.01 1.5 2.5l2.5 1.4v2.5c0 1.1.9 2 2 2h3v2.5c0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5v-5c0-1.1-.9-2-2-2h-2.09c-1.05 0-2.01-.5-2.5-1.5l-1.4-2.5v-2.5c0-1.1.9-2 2-2h5c1.1 0 2-.9 2-2v-2.09c0-1.05-.5-2.01-1.5-2.5l-2.5-1.4V3.5c0-2-1.5-3.5-3.5-3.5zM12 15c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-6-6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"></path></svg>
+                        <p>Python</p>
+                    </div>
+                    <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="HTML5 Logo"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438zM8.5 8.5h7L15 4l-3-1-3 1-0.5 4.5zM17.5 17.5l-5.5 1.5-5.5-1.5L6 13h2.5l0.25 3 3.25 1 3.25-1 0.25-3H8.5l-0.5-4h10z"></path></svg>
+                        <p>HTML</p>
+                    </div>
+                     <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="CSS3 Logo"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438zM12 17.5l5.5-1.5.5-5.5h-11L8 14l4 1.5zm0-8l-4-1.5-0.5-4h9l-0.5 4-4 1.5z"></path></svg>
+                        <p>CSS</p>
+                    </div>
+                    <div class="skill-card">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="Arduino Logo"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM8 12H6v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"></path></svg>
+                        <p>Arduino</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="achievements" class="content-section">
+                <h2 class="section-heading">Achievements</h2>
+                <div class="grid-layout-four-col">
+                    <div class="card achievement-card">
+                        <i class="fas fa-laptop-code achievement-icon"></i>
+                        <h3>1st Prize - Hackathon</h3>
+                        <p>Naan Mudhalvan & InGage Technologies, GCE Salem (2025)</p>
+                    </div>
+                    <div class="card achievement-card">
+                        <i class="fas fa-trophy achievement-icon"></i>
+                        <h3>2nd Prize - Hackathon</h3>
+                        <p>Naan Mudhalvan & Oracle University, PSG iTech (2024)</p>
+                    </div>
+                    <div class="card achievement-card">
+                        <i class="fas fa-file-alt achievement-icon"></i>
+                        <h3>1st Prize - Paper Presentation</h3>
+                        <p>KSR College of Technology, Erode (2024)</p>
+                    </div>
+                    <div class="card achievement-card">
+                        <i class="fas fa-award achievement-icon"></i>
+                        <h3>Top Academic Performer</h3>
+                        <p>Secured 3rd rank in the 5th semester.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="contact" class="content-section">
+                <h2 class="section-heading">Contact Me</h2>
+                <form id="contact-form" class="contact-form" novalidate>
+                    <input type="text" name="name" class="form-input" placeholder="Your Name" required>
+                    <input type="email" name="email" class="form-input" placeholder="Your Email" required>
+                    <textarea name="message" class="form-input" placeholder="Your Message" required rows="6"></textarea>
+                    <button type="submit" class="form-submit-btn">Send Message</button>
+                </form>
+                <p id="form-message"></p>
+                <a href="Baskar_K_Resume.pdf" download id="download-resume-btn" class="form-submit-btn" aria-label="Download my resume">
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <p>&copy; 2025 Baskar K. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        /**
+         * ==============================================
+         * JAVASCRIPT FOR PORTFOLIO INTERACTIVITY
+         * ==============================================
+         * This script handles:
+         * 1. Tabbed navigation for single-page app feel.
+         * 2. Mobile navigation menu toggle.
+         * 3. Dynamic typing animation in the hero section.
+         * 4. Contact form submission and validation.
+         * 5. Staggered animations for card elements.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /**
+             * ----------------------------------------------
+             * 1. TABBED NAVIGATION & SECTION SWITCHING
+             * ----------------------------------------------
+             * Handles switching between content sections.
+             */
+            function setupTabNavigation() {
+                const navLinks = document.querySelectorAll('.nav-link, .header-logo, .mobile-nav .nav-link');
+                const contentSections = document.querySelectorAll('.content-section');
+                const mobileNav = document.getElementById('mobile-nav');
+                const navToggle = document.getElementById('nav-toggle');
+
+                const switchSection = (targetId) => {
+                    // Update content visibility
+                    contentSections.forEach(section => {
+                        section.classList.toggle('active', section.id === targetId);
+                    });
+
+                    // Update active state for all navigation links
+                    document.querySelectorAll('.nav-link, .header-logo').forEach(link => {
+                        link.classList.toggle('active', link.dataset.section === targetId);
+                    });
+                    
+                    // Trigger staggered animations for the new active section
+                    animateElementsIn(document.getElementById(targetId));
+                };
+
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetSectionId = link.dataset.section;
+                        switchSection(targetSectionId);
+
+                        // If on mobile, close the nav overlay
+                        if (mobileNav.classList.contains('active')) {
+                            mobileNav.classList.remove('active');
+                            navToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+                            navToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                });
+            }
+
+
+            /**
+             * ----------------------------------------------
+             * 2. MOBILE NAVIGATION TOGGLE
+             * ----------------------------------------------
+             * Handles the hamburger menu functionality.
+             */
+            function setupMobileMenu() {
+                const navToggle = document.getElementById('nav-toggle');
+                const mobileNav = document.getElementById('mobile-nav');
+
+                if (navToggle && mobileNav) {
+                    navToggle.addEventListener('click', () => {
+                        const isOpened = mobileNav.classList.toggle('active');
+                        navToggle.setAttribute('aria-expanded', isOpened);
+                        
+                        // Toggle icon
+                        const icon = navToggle.querySelector('i');
+                        if (isOpened) {
+                            icon.classList.replace('fa-bars', 'fa-times');
+                        } else {
+                            icon.classList.replace('fa-times', 'fa-bars');
+                        }
+                    });
+                }
+            }
+
+
+            /**
+             * ----------------------------------------------
+             * 3. DYNAMIC TYPING ANIMATION
+             * ----------------------------------------------
+             * Creates a typing effect for the hero section title.
+             */
+            function setupTypingAnimation() {
+                const typingTextElement = document.getElementById('typing-text');
+                if (!typingTextElement) return;
+
+                const roles = ["Mechanical Engineer", "CAD Designer", "IoT Developer", "Problem Solver"];
+                let roleIndex = 0, charIndex = 0, isDeleting = false;
+
+                const type = () => {
+                    const currentRole = roles[roleIndex];
+                    let typeSpeed = isDeleting ? 75 : 150;
+
+                    typingTextElement.textContent = currentRole.substring(0, charIndex);
+
+                    if (!isDeleting && charIndex < currentRole.length) {
+                        charIndex++;
+                    } else if (isDeleting && charIndex > 0) {
+                        charIndex--;
+                    } else {
+                        isDeleting = !isDeleting;
+                        if (!isDeleting) {
+                            roleIndex = (roleIndex + 1) % roles.length;
+                        }
+                        typeSpeed = 1200; // Pause at end of word/deletion
+                    }
+                    setTimeout(type, typeSpeed);
+                };
+                
+                type();
+            }
+            
+            /**
+             * ----------------------------------------------
+             * 4. CONTACT FORM HANDLING
+             * ----------------------------------------------
+             * Manages form submission and reveals download button.
+             */
+            function setupContactForm() {
+                const contactForm = document.getElementById('contact-form');
+                if (!contactForm) return;
+
+                const formMessage = document.getElementById('form-message');
+                const downloadBtn = document.getElementById('download-resume-btn');
+
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    formMessage.textContent = 'Thank you for your message! You can now download my resume.';
+                    formMessage.style.display = 'block';
+                    downloadBtn.style.display = 'inline-block';
+                    contactForm.reset();
+                });
+            }
+
+            /**
+             * ----------------------------------------------
+             * 5. STAGGERED ANIMATIONS ON SECTION LOAD
+             * ----------------------------------------------
+             * Animates cards and timeline items when a section becomes active.
+             */
+            function animateElementsIn(section) {
+                if (!section) return;
+
+                const elementsToAnimate = section.querySelectorAll('.timeline-item, .card, .skill-card');
+                elementsToAnimate.forEach((el, index) => {
+                    el.classList.remove('stagger-animation');
+                    // We re-add the class in a timeout to re-trigger the animation
+                    setTimeout(() => {
+                        el.style.animationDelay = `${index * 100}ms`;
+                        el.classList.add('stagger-animation');
+                    }, 10);
+                });
+            }
+
+
+            /**
+             * ----------------------------------------------
+             * INITIALIZE ALL SCRIPTS
+             * ----------------------------------------------
+             */
+            function init() {
+                setupTabNavigation();
+                setupMobileMenu();
+                setupTypingAnimation();
+                setupContactForm();
+                // Trigger animation for the default active section on page load
+                animateElementsIn(document.querySelector('.content-section.active'));
+            }
+
+            init(); // Run all setup functions
+        });
+    </script>
+
+</body>
+</html>
